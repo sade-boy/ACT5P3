@@ -1,104 +1,166 @@
 package actividad5;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class Ventana extends JFrame {
 
     public Ventana() {
 
-        setTitle("Ventana");
-        setSize(500,350);
+        setTitle("Sistema de Facturación");
+        setSize(720,650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         iniciarComponentes();
-
         setVisible(true);
     }
 
     public void iniciarComponentes() {
+        mostrarFactura();
+    }
 
-        setLayout(new BorderLayout());
+    public void mostrarFactura() {
 
-        
-        JLabel titulo = new JLabel("Interés");
-        titulo.setFont(new Font("Arial", Font.BOLD, 26));
-        titulo.setForeground(Color.red);
+        setLayout(null);
 
-        JPanel panelTitulo = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panelTitulo.setBackground(Color.WHITE);
-        panelTitulo.add(titulo);
+        JPanel panel = new JPanel(null);
+        panel.setBounds(0,0,720,650);
+        panel.setBackground(new Color(245, 247, 240));
+        add(panel);
 
-        add(panelTitulo, BorderLayout.NORTH);
+        JLabel titulo = new JLabel("Sistema de Facturación");
+        titulo.setBounds(20,10,400,30);
+        titulo.setForeground(new Color(34, 139, 87));
+        titulo.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        panel.add(titulo);
 
+        panel.add(tituloSeccion("Datos del Cliente",20,40));
+        panel.add(separador(20,60,660));
 
-        
-        JPanel panelCentro = new JPanel(new BorderLayout());
-        panelCentro.setBackground(Color.green);
+        JPanel cliente = panelBox(20,70,660,100);
+        panel.add(cliente);
 
-        JLabel texto = new JLabel("Calcular interés");
+        cliente.add(label("Documento:",10,10));
+        cliente.add(input("123456",110,10));
 
-        JPanel arriba = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        arriba.setOpaque(false);
-        arriba.add(texto);
+        cliente.add(label("Nombre:",320,10));
+        cliente.add(input("Jhon Doe",400,10));
 
-        panelCentro.add(arriba, BorderLayout.NORTH);
+        cliente.add(label("Dirección:",10,50));
+        cliente.add(input("Calle 1 #123",110,50));
 
+        cliente.add(label("Teléfono:",320,50));
+        cliente.add(input("5554433",400,50));
 
-        JPanel datos = new JPanel(new GridLayout(3,2,10,10));
-        datos.setOpaque(false);
+        panel.add(tituloSeccion("Información de la Factura",20,180));
+        panel.add(separador(20,200,660));
 
-        JTextField capital = new JTextField("1500");
-        JTextField tiempo = new JTextField("2");
-        JTextField tasa = new JTextField("0.1");
+        JPanel factura = panelBox(20,210,660,60);
+        panel.add(factura);
 
-        datos.add(new JLabel("Capital:"));
-        datos.add(capital);
+        factura.add(label("Factura N°:",10,10));
+        factura.add(label("1",120,10));
 
-        datos.add(new JLabel("Tiempo:"));
-        datos.add(tiempo);
+        factura.add(label("Fecha:",350,10));
+        factura.add(label("23/03/2026",420,10));
 
-        datos.add(new JLabel("Tasa interés:"));
-        datos.add(tasa);
+        panel.add(tituloSeccion("Detalle de Productos",20,280));
+        panel.add(separador(20,300,660));
 
-        panelCentro.add(datos, BorderLayout.CENTER);
+        String[] columnas = {"Producto","Cant","Precio","Total"};
+        String[][] datos = {
+                {"Agua","2","500","1000"},
+                {"Cereal","5","1000","5000"},
+                {"Leche","2","300","600"}
+        };
 
+        JTable tabla = new JTable(datos, columnas);
+        tabla.setBackground(Color.WHITE);
+        tabla.setForeground(Color.BLACK);
+        tabla.setRowHeight(28);
+        tabla.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 
-        JPanel botones = new JPanel(new FlowLayout());
-        botones.setOpaque(false);
+        JScrollPane scroll = new JScrollPane(tabla);
+        scroll.setBounds(20,310,660,150);
+        panel.add(scroll);
 
-        botones.add(new JButton("Calcular"));
-        botones.add(new JButton("Cancelar"));
+        panel.add(tituloSeccion("Resumen de Pago",20,470));
+        panel.add(separador(20,490,660));
 
-        panelCentro.add(botones, BorderLayout.SOUTH);
+        panel.add(label("SubTotal:",20,500));
+        panel.add(label("6600.0",120,500));
 
-        add(panelCentro, BorderLayout.CENTER);
+        panel.add(label("% Descuento:",20,530));
+        JTextField desc = input("5",150,530);
+        panel.add(desc);
 
+        panel.add(label("Descuento: 330.0",250,530));
 
-        
-        JPanel resultado = new JPanel(new GridLayout(2,2,10,10));
-        resultado.setBackground(Color.orange);
+        panel.add(label("IVA 19%:",20,560));
+        panel.add(label("1254.0",120,560));
 
-        JTextField interes = new JTextField();
-        JTextField monto = new JTextField();
+        panel.add(label("Total:",20,590));
+        panel.add(label("7524.0",120,590));
 
-        resultado.add(new JLabel("Interes:"));
-        resultado.add(interes);
+        JButton finalizar = new JButton("Finalizar factura");
+        finalizar.setBounds(450,560,200,40);
+        finalizar.setBackground(new Color(34,139,87));
+        finalizar.setForeground(Color.WHITE);
+        finalizar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        finalizar.setFocusPainted(false);
+        finalizar.setBorder(null);
+        panel.add(finalizar);
 
-        resultado.add(new JLabel("Monto:"));
-        resultado.add(monto);
+        finalizar.addActionListener(e -> {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "La factura se ha realizado con éxito!",
+                    "Información",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+    }
 
-        add(resultado, BorderLayout.SOUTH);
+    public JPanel panelBox(int x, int y, int w, int h){
+        JPanel p = new JPanel(null);
+        p.setBounds(x,y,w,h);
+        p.setBackground(Color.WHITE);
+        p.setBorder(new LineBorder(new Color(200,200,200),1,true));
+        return p;
+    }
+
+    public JLabel label(String txt, int x, int y){
+        JLabel l = new JLabel(txt);
+        l.setBounds(x,y,180,25);
+        l.setForeground(new Color(60,60,60));
+        l.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        return l;
+    }
+
+    public JTextField input(String txt, int x, int y){
+        JTextField t = new JTextField(txt);
+        t.setBounds(x,y,150,25);
+        t.setBackground(Color.WHITE);
+        t.setForeground(Color.BLACK);
+        t.setBorder(new LineBorder(new Color(180,180,180)));
+        return t;
+    }
+
+    public JLabel tituloSeccion(String txt, int x, int y){
+        JLabel t = new JLabel(txt);
+        t.setBounds(x,y,300,25);
+        t.setForeground(new Color(34,139,87));
+        t.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        return t;
+    }
+
+    public JSeparator separador(int x, int y, int w){
+        JSeparator s = new JSeparator();
+        s.setBounds(x,y,w,1);
+        s.setForeground(new Color(34,139,87));
+        return s;
     }
 
     public static void main(String[] args) {
